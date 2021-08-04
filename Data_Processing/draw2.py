@@ -1,6 +1,4 @@
 # data analysis
-from _typeshed import SupportsLessThan
-from io import SEEK_SET
 import xlrd
 import pandas as pd
 import numpy as np
@@ -35,11 +33,7 @@ df_FEED_ACT = df['W3.DATAPOINT.FEED_ACT']
 df_FEED_SET = df['W3.DATAPOINT.FEED_SET']
 df_C_R = df['W3.DATAPOINT.C_R']
 
-def TimeStemp(dfx):
-    df_ts = dfx.copy()
-    df_ts["Time"] = 
-
-table = pd.DataFrame([i for i in range(480)],columns=['value'],index=pd.date_range('00:00:00', '23:57:00', freq='180s'))
+table = dfx.index
 
 def draw_picture(df):
     # 图像大小
