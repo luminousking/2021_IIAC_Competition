@@ -45,18 +45,19 @@ def test_data_normal(tsdata,numbdata):
 tsdata=pd.read_excel('E:\IIAC\dataprocess\\tsdata.xlsx')
 numbdata=pd.read_excel('E:\IIAC\dataprocess\\numbdata.xlsx')
 train_data_normal(tsdata,numbdata)
-max=float('-inf')
-min=float('inf')
-for i in tsdata['ID'].unique().tolist():
-    print(len(tsdata[tsdata['ID']==i]))
-    if len(tsdata[tsdata['ID']==i])>max:
-        max=len(tsdata[tsdata['ID']==i])
-    if len(tsdata[tsdata['ID']==i])<min:
-        min=len(tsdata[tsdata['ID']==i])
-    if len(tsdata[tsdata['ID'] == i])==1:
-        print(i)
-
-print(max,min)
+#最小值最大值213 211
+# max=float('-inf')
+# min=float('inf')
+# for i in tsdata['ID'].unique().tolist():
+#     print(len(tsdata[tsdata['ID']==i]))
+#     if len(tsdata[tsdata['ID']==i])>max:
+#         max=len(tsdata[tsdata['ID']==i])
+#     if len(tsdata[tsdata['ID']==i])<min:
+#         min=len(tsdata[tsdata['ID']==i])
+#     if len(tsdata[tsdata['ID'] == i])==1:
+#         print(i)
+#
+# print(max,min)
 
 
 

@@ -9,7 +9,12 @@ def tsdata(data):
            'W3.DATAPOINT.Z_L', 'W3.DATAPOINT.X2_R', 'W3.DATAPOINT.X2_L',
            'W3.DATAPOINT.X3_R', 'W3.DATAPOINT.X3_L', 'W3.DATAPOINT.FEED_ACT','W3.DATAPOINT.FEED_SET',
            'W3.DATAPOINT.C_R', 'W3.DATAPOINT.C_L','W3.DATAPOINT.CODE_L1', 'W3.DATAPOINT.CODE_L2', 'W3.DATAPOINT.CODE_L3']]
+
+
     tsdata[['工件编号']]=tsdata[['工件编号']].fillna('00')
+    tsdata[['W3.DATAPOINT.CODE_L1']] = tsdata[['W3.DATAPOINT.CODE_L1']].fillna('00')
+    tsdata[['W3.DATAPOINT.CODE_L2']] = tsdata[['W3.DATAPOINT.CODE_L2']].fillna('00')
+    tsdata[['W3.DATAPOINT.CODE_L3']] = tsdata[['W3.DATAPOINT.CODE_L3']].fillna('00')
     pjcode=[]
     code=0
     for i in range(0,len(tsdata)):#
@@ -20,8 +25,8 @@ def tsdata(data):
             pjcode.append(code)
     tsdata['ID']=pjcode
 
-    content = tsdata['W3.DATAPOINT.CODE_L1'].unique().tolist() + tsdata['W3.DATAPOINT.CODE_L1'].unique().tolist() + \
-              tsdata['W3.DATAPOINT.CODE_L1'].unique().tolist()
+    content = tsdata['W3.DATAPOINT.CODE_L1'].unique().tolist() + tsdata['W3.DATAPOINT.CODE_L2'].unique().tolist() + \
+              tsdata['W3.DATAPOINT.CODE_L3'].unique().tolist()
     content = list(set(content))
     print(content)
     l = {}
@@ -34,6 +39,7 @@ def tsdata(data):
     tsdata['code2'] = tsdata['W3.DATAPOINT.CODE_L2'].map(l)
     tsdata['code3'] = tsdata['W3.DATAPOINT.CODE_L3'].map(l)
     tsdata.to_excel('tsdata.xlsx')
+
 
 # 提取时序数据
 tsdata(data)
