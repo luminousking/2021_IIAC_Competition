@@ -1,4 +1,5 @@
 # data analysis
+from _typeshed import SupportsLessThan
 from io import SEEK_SET
 import xlrd
 import pandas as pd
@@ -15,15 +16,13 @@ import matplotlib.dates as mdates
 from sklearn import preprocessing
 
 
-df = pd.read_excel('tsdata.xlsx')
+df = pd.read_excel('tsdata_2.xlsx')
 grouped = df.groupby('ID')
 for i in range(210625,210849):
     dfx = grouped.get_group(i) #.to_csv('test1.csv',encoding='utf_8_sig'
     break
 
-
 # 取数据
-
 df_X_R = df['W3.DATAPOINT.X_R']
 df_X_I = df['W3.DATAPOINT.X_I']
 df_Z_R = df['W3.DATAPOINT.X_I']
@@ -36,17 +35,18 @@ df_FEED_ACT = df['W3.DATAPOINT.FEED_ACT']
 df_FEED_SET = df['W3.DATAPOINT.FEED_SET']
 df_C_R = df['W3.DATAPOINT.C_R']
 
+def TimeStemp(dfx):
+    df_ts = dfx.copy()
+    df_ts["Time"] = 
 
 table = pd.DataFrame([i for i in range(480)],columns=['value'],index=pd.date_range('00:00:00', '23:57:00', freq='180s'))
-
-
 
 def draw_picture(df):
     # 图像大小
     fig = plt.figure(figsize=(15,9), dpi=100)
     ax = fig.add_subplot(111)
 
-    # X轴时间刻度格式 & 刻度显示
+ # X轴时间刻度格式 & 刻度显示
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
     plt.xticks(pd.date_range(table.index[0],table.index[-1],freq='H'), rotation=45)
 
@@ -73,6 +73,10 @@ def draw_picture(df):
     plt.title("车速时序图", fontsize=25, color='black', pad=20)
     plt.gcf().autofmt_xdate()
 
+    plt.show()
+
+
+  
 
 
 
