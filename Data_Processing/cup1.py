@@ -1,19 +1,20 @@
 import pandas as pd
 import numpy as np
 data=pd.read_excel('E:\IIAC\测试集-旋压单元数据处理结果(1).xlsx')
-data=data.replace('∞',np.nan)
 # print(data.describe())
+data=data.replace('∞', np.nan)
+data=data[data['工件编号']!=210836]
 def tsdata(data):
     tsdata=data[['工件编号', 'W3.DATAPOINT.X_R', 'W3.DATAPOINT.X_I', 'W3.DATAPOINT.Z_R',
            'W3.DATAPOINT.Z_L', 'W3.DATAPOINT.X2_R', 'W3.DATAPOINT.X2_L',
            'W3.DATAPOINT.X3_R', 'W3.DATAPOINT.X3_L', 'W3.DATAPOINT.FEED_ACT','W3.DATAPOINT.FEED_SET',
            'W3.DATAPOINT.C_R', 'W3.DATAPOINT.C_L','W3.DATAPOINT.CODE_L1', 'W3.DATAPOINT.CODE_L2', 'W3.DATAPOINT.CODE_L3']]
-    tsdata[['工件编号']]=tsdata[['工件编号']].fillna('00\r')
+    tsdata[['工件编号']]=tsdata[['工件编号']].fillna('00')
     pjcode=[]
     code=0
     for i in range(0,len(tsdata)):#
-        if tsdata.loc[i]['工件编号']!='00':
-            code=tsdata.loc[i]['工件编号']
+        if tsdata['工件编号'].tolist()[i]!='00':
+            code=tsdata['工件编号'].tolist()[i]
             pjcode.append(code)
         else:
             pjcode.append(code)
@@ -53,7 +54,7 @@ def numbdata(data):
     numbdata.to_excel('numbdata.xlsx')
 
 #提取数值
-# numbdata(data)
+numbdata(data)
 
 
 

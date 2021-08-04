@@ -1,4 +1,5 @@
 # data analysis
+from io import SEEK_SET
 import xlrd
 import pandas as pd
 import numpy as np
@@ -23,6 +24,8 @@ for i in range(210625,210849):
 
 
 
-def normalization(dfx):
-    range = np.max(dfx['']) - np.min(dfx[''])
-    return (dfx[''] - np.min(dfx[''])) / range
+def normalization(dfn):
+    range_n = np.max(dfn - np.min(dfn)
+
+    return (dfn - np.min(dfn)) / range_n
+
