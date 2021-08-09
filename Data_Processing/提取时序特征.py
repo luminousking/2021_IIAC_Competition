@@ -289,19 +289,19 @@ for i in range(0,70):
     df_C_R = dfx['W3.DATAPOINT.C_R']
 
     # 获取时间戳
-    table = df5.index.tolist()
+    table = dfx.index.tolist()
 
     # 获取标题
  
     title1 = str(df6['工件编号'].tolist()[a])
-    title2 = str(df6['中部跳动'][a])
-    title3 = str(df6['Q处跳动'][a])
+    # title2 = str(df6['中部跳动'][a])
+    # title3 = str(df6['Q处跳动'][a])
 
     # 图像大小
     plt.figure(figsize=(15,9))
 
     # 图像名
-    plt.suptitle("Item number: " + title1 + "  Middle jump value: " + title2 + "  Q point jump value: " + title3, fontsize=15, color='black')
+    plt.suptitle("Item number: " + title1 , fontsize=15, color='black')
 
     # 绘图
     plt.subplot(441)
@@ -349,12 +349,33 @@ for i in range(0,70):
     # plt.ylabel("value", fontsize=16)         # Y轴标签
     # 图例
     # plt.show()
-    plt.savefig('C:/Users/Luminous Isaac/Documents/GitHub/2021_IIAC_Competition/Data_Processing/pic/item_number{}.png'.format(df2['工件编号'].tolist()[a]))
+    plt.savefig('C:/Users/Luminous Isaac/Documents/GitHub/2021_IIAC_Competition/Data_Processing/pic/test/item_number{}.png'.format(df6['工件编号'].tolist()[a]))
     a = a + 1
 
 
 
 
+############################# Similarity###############################
+import math 
+
+df1 = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\test_tsdata_equal.xlsx')
+df2 = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\test_numbdata.xlsx')
+df3 = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\tsdata_equal.xlsx')
+df4 = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\numbdata_2.xlsx')
+
+group1 = df1.groupby('ID')
+group2 = df3.groupby('ID')
+
+for i in range(0,70):
+    dfx1 = group1.get_group(df2['工件编号'][i])
+    
+    for j in range(0,167):
+        dfx2 = group2.get_group(df4['工件编号'][j])
+        df_d = abs(dfx1.sub(dfx2))
+      
+
+    break
+    
 
 
 

@@ -22,7 +22,7 @@ df3 = pd.read_csv(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competiti
 a = 0
 
 for i in range(0,167):
-    dfx = grouped.get_group(df3['ID'][i]) 
+    dfx = grouped.get_group(df2['ID'][i]) 
 
     # 取数据
     df_X_R = dfx['W3.DATAPOINT.X_R']
