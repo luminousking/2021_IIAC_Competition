@@ -39,7 +39,7 @@ from tsfresh import extract_features
 # df[df.id == 31][['time', 'F_x' ,'F_y',  'F_z',  'T_x',  'T_y',  'T_z']].plot(x='time',title='Success example(id 3)', figsize=(12, 6))
 # df[df.id == 73][['time', 'F_x' ,'F_y',  'F_z',  'T_x',  'T_y', 'T_z']].plot(x='time',title='Failure example(id 20)', figsize=(12, 6))
 # plt.show()
-df = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\tsdata.xlsx')
+df = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\tsdata_equal.xlsx')
 #加入时间戳
 df_ts=df.copy()
 df_ts["Time"] = None
