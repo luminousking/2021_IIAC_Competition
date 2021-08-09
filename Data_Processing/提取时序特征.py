@@ -45,7 +45,7 @@ df_ts=df.copy()
 df_ts["Time"] = None
 g = df_ts.groupby('ID')
 df_ts["Time"]=g.cumcount() + 1
-df_ts.to_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\tsdata_带时间.xlsx',index=False,encoding='gb18030')
+df_ts.to_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\tsdata_withTime.xlsx',index=False,encoding='gb18030')
 
 df=df_ts.copy()
 
@@ -168,194 +168,100 @@ df6.to_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Da
 
 df2 = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\numbdata_2.xlsx')
 df = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\tsdata_equal.xlsx')
+df2=df2[['工件编号','Q处跳动','中部跳动']]
 df=pd.merge(df, df2, left_on='ID',right_on='工件编号', how='left')
 
-print(df2.dtypes)
-#df2[['Q处跳动']]=df2[['Q处跳动']].astype('str')
-
-df_T=df2[df2['Q处跳动'] <= 0.1]
-df_F=df2[df2['Q处跳动'] >= 0.6]
-
-# df2_T=df2_T[['工件编号','Q处跳动','中部跳动']]
-# df2_F=df2_F[['工件编号','Q处跳动','中部跳动']]
-
-# df_T=df_T.dropna(axis=0,subset = ["工件编号"])   # 丢弃‘工件编号’这列中有缺失值的行 
-# df_F=df_F.dropna(axis=0,subset = ["工件编号"])
-
-g = df_F.groupby('ID')
-df_F["TM"]=g.cumcount() + 1
-
-g = df_T.groupby('ID')
-df_T["TM"]=g.cumcount() + 1
-
-
-df_f_pic = pd.DataFrame(columns=['Unnamed: 0', 'W3.DATAPOINT.X_R', 'W3.DATAPOINT.X_I',
-       'W3.DATAPOINT.Z_R', 'W3.DATAPOINT.Z_L', 'W3.DATAPOINT.X2_R',
-       'W3.DATAPOINT.X2_L', 'W3.DATAPOINT.X3_R', 'W3.DATAPOINT.X3_L',
-       'W3.DATAPOINT.FEED_ACT', 'W3.DATAPOINT.FEED_SET', 'W3.DATAPOINT.C_R',
-       'W3.DATAPOINT.C_L', 'code1', 'code2', 'code3', 'ID', 'TM', '工件编号',
-       'Q处跳动', '中部跳动'])
-for i in range(1,221):
-    df_a=df_F[df_F['TM']==i].mean()
-    df_f_pic=df_f_pic.append(df_a, ignore_index=True)
+list1=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]
+for i in list1:
     
-df_t_pic = pd.DataFrame(columns=['Unnamed: 0', 'W3.DATAPOINT.X_R', 'W3.DATAPOINT.X_I',
+    df_F=df[(df['中部跳动'] >= i-0.1) &(df['中部跳动'] < i)]
+           
+    g = df_F.groupby('ID')
+    df_F["TM"]=g.cumcount() + 1
+        
+    df_f_pic = pd.DataFrame(columns=['Unnamed: 0', 'W3.DATAPOINT.X_R', 'W3.DATAPOINT.X_I',
        'W3.DATAPOINT.Z_R', 'W3.DATAPOINT.Z_L', 'W3.DATAPOINT.X2_R',
        'W3.DATAPOINT.X2_L', 'W3.DATAPOINT.X3_R', 'W3.DATAPOINT.X3_L',
        'W3.DATAPOINT.FEED_ACT', 'W3.DATAPOINT.FEED_SET', 'W3.DATAPOINT.C_R',
        'W3.DATAPOINT.C_L', 'code1', 'code2', 'code3', 'ID', 'TM', '工件编号',
        'Q处跳动', '中部跳动'])
-for i in range(1,221):
-    df_a=df_T[df_T['TM']==i].mean()
-    df_t_pic=df_t_pic.append(df_a, ignore_index=True)
-
-
-负样本Q
-# 取数据F
-df_X_R = df_f_pic['W3.DATAPOINT.X_R']
-df_X_I = df_f_pic['W3.DATAPOINT.X_I']
-df_Z_R = df_f_pic['W3.DATAPOINT.X_I']
-df_Z_L = df_f_pic['W3.DATAPOINT.Z_L']
-df_X2_R = df_f_pic['W3.DATAPOINT.X2_R']
-df_X2_L = df_f_pic['W3.DATAPOINT.X2_L']
-df_X3_R = df_f_pic['W3.DATAPOINT.X3_R']
-df_X3_L = df_f_pic['W3.DATAPOINT.X3_L']
-df_FEED_ACT = df_f_pic['W3.DATAPOINT.FEED_ACT']
-df_FEED_SET = df_f_pic['W3.DATAPOINT.FEED_SET']
-df_C_R = df_f_pic['W3.DATAPOINT.C_R']
-
-plt.rcParams['font.sans-serif'] = ['SimHei']
-    # 获取时间戳
-table = df_f_pic.TM
-
-    # 图像大小
-plt.figure(figsize=(15,9))
-
-# 调整子图间距
-plt.subplots_adjust(hspace =0.3)
-
-    # 图像名
-plt.suptitle("Q处跳动_负样本", fontsize=20, color='black')
-
-
-# 绘图
-plt.subplot(441)
-plt.plot(table,df_X_R,color='r', label='X_R')
-plt.xlabel('X_R')
-
-plt.subplot(442)
-plt.plot(table,df_X_I,color='y', label='X_I')
-plt.xlabel('X_I')
-
-plt.subplot(443)
-plt.plot(table,df_Z_R,color='g', label='Z_R')
-plt.xlabel('Z_R')
-
-plt.subplot(444)
-plt.plot(table,df_Z_L,color='c', label='Z_L')
-plt.xlabel('Z_L')
-
-plt.subplot(445)
-plt.plot(table,df_X2_R,color='m', label='X2_R')
-plt.xlabel('X2_R')
-
-plt.subplot(446)
-plt.plot(table,df_X2_L,color='k', label='X2_L')
-plt.xlabel('X2_L')
-
-plt.subplot(447)
-plt.plot(table,df_X3_R,color='SkyBlue',label='X3_R')
-plt.xlabel('X3_R')
-
-plt.subplot(448)
-plt.plot(table,df_X3_L, color='IndianRed', label='X3_L')
-plt.xlabel('X3_L')
-
-plt.subplot(449)
-plt.plot(table,df_FEED_ACT, color='Purple', label='FEED_ACT')
-plt.xlabel('FEED_ACT')
-
-plt.subplot(4,4,10)
-plt.plot(table,df_FEED_SET, color='Brown', label='FEED_SET')
-plt.xlabel('FEED_SET')
-
-plt.subplot(4,4,11)
-plt.plot(table,df_C_R, color='Olive', label='C_R')
-plt.xlabel('C_R')
-
-plt.savefig('C:/Users/admin/Desktop/航空航天赛道/正负样本/Q处跳动_大于等于0.6.jpg',bbox_inches='tight')
-
-正样本Q
-# 取数据F
-df_X_R = df_t_pic['W3.DATAPOINT.X_R']
-df_X_I = df_t_pic['W3.DATAPOINT.X_I']
-df_Z_R = df_t_pic['W3.DATAPOINT.X_I']
-df_Z_L = df_t_pic['W3.DATAPOINT.Z_L']
-df_X2_R = df_t_pic['W3.DATAPOINT.X2_R']
-df_X2_L = df_t_pic['W3.DATAPOINT.X2_L']
-df_X3_R = df_t_pic['W3.DATAPOINT.X3_R']
-df_X3_L = df_t_pic['W3.DATAPOINT.X3_L']
-df_FEED_ACT = df_t_pic['W3.DATAPOINT.FEED_ACT']
-df_FEED_SET = df_t_pic['W3.DATAPOINT.FEED_SET']
-df_C_R = df_t_pic['W3.DATAPOINT.C_R']
-
-plt.rcParams['font.sans-serif'] = ['SimHei']
-    # 获取时间戳
-table = df_t_pic.TM
-
-    # 图像大小
-plt.figure(figsize=(15,9))
-
-# 调整子图间距
-plt.subplots_adjust(hspace =0.3)
-
-    # 图像名
-plt.suptitle("Q处跳动_正样本", fontsize=20, color='black')
-
-# 绘图
-plt.subplot(441)
-plt.plot(table,df_X_R,color='r', label='X_R')
-plt.xlabel('X_R')
-
-plt.subplot(442)
-plt.plot(table,df_X_I,color='y', label='X_I')
-plt.xlabel('X_I')
-
-plt.subplot(443)
-plt.plot(table,df_Z_R,color='g', label='Z_R')
-plt.xlabel('Z_R')
-
-plt.subplot(444)
-plt.plot(table,df_Z_L,color='c', label='Z_L')
-plt.xlabel('Z_L')
-
-plt.subplot(445)
-plt.plot(table,df_X2_R,color='m', label='X2_R')
-plt.xlabel('X2_R')
-
-plt.subplot(446)
-plt.plot(table,df_X2_L,color='k', label='X2_L')
-plt.xlabel('X2_L')
-
-plt.subplot(447)
-plt.plot(table,df_X3_R,color='SkyBlue',label='X3_R')
-plt.xlabel('X3_R')
-
-plt.subplot(448)
-plt.plot(table,df_X3_L, color='IndianRed', label='X3_L')
-plt.xlabel('X3_L')
-
-plt.subplot(449)
-plt.plot(table,df_FEED_ACT, color='Purple', label='FEED_ACT')
-plt.xlabel('FEED_ACT')
-
-plt.subplot(4,4,10)
-plt.plot(table,df_FEED_SET, color='Brown', label='FEED_SET')
-plt.xlabel('FEED_SET')
-
-plt.subplot(4,4,11)
-plt.plot(table,df_C_R, color='Olive', label='C_R')
-plt.xlabel('C_R')
-
-plt.savefig('C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\adnpic\Q处跳动_小于0.1.jpg',bbox_inches='tight')
+    for j in range(1,221):
+        df_a=df_F[df_F['TM']==j].mean()
+        df_f_pic=df_f_pic.append(df_a, ignore_index=True)
+    
+    # 取数据F
+    df_X_R = df_f_pic['W3.DATAPOINT.X_R']
+    df_X_I = df_f_pic['W3.DATAPOINT.X_I']
+    df_Z_R = df_f_pic['W3.DATAPOINT.X_I']
+    df_Z_L = df_f_pic['W3.DATAPOINT.Z_L']
+    df_X2_R = df_f_pic['W3.DATAPOINT.X2_R']
+    df_X2_L = df_f_pic['W3.DATAPOINT.X2_L']
+    df_X3_R = df_f_pic['W3.DATAPOINT.X3_R']
+    df_X3_L = df_f_pic['W3.DATAPOINT.X3_L']
+    df_FEED_ACT = df_f_pic['W3.DATAPOINT.FEED_ACT']
+    df_FEED_SET = df_f_pic['W3.DATAPOINT.FEED_SET']
+    df_C_R = df_f_pic['W3.DATAPOINT.C_R']
+    
+    plt.rcParams['font.sans-serif'] = ['SimHei']
+        # 获取时间戳
+    table = df_f_pic.TM
+    
+        # 图像大小
+    plt.figure(figsize=(15,9))
+    
+    # 调整子图间距
+    plt.subplots_adjust(hspace =0.4)
+    
+        # 图像名
+    title1 = str(i-0.1)
+    title2 = str(i)
+    plt.suptitle("中部跳动值_" + title1 + "-" + title2 , fontsize=20, color='black')
+    
+    
+    # 绘图
+    plt.subplot(441)
+    plt.plot(table,df_X_R,color='r', label='X_R')
+    plt.xlabel('X_R')
+    
+    plt.subplot(442)
+    plt.plot(table,df_X_I,color='y', label='X_I')
+    plt.xlabel('X_I')
+    
+    plt.subplot(443)
+    plt.plot(table,df_Z_R,color='g', label='Z_R')
+    plt.xlabel('Z_R')
+    
+    plt.subplot(444)
+    plt.plot(table,df_Z_L,color='c', label='Z_L')
+    plt.xlabel('Z_L')
+    
+    plt.subplot(445)
+    plt.plot(table,df_X2_R,color='m', label='X2_R')
+    plt.xlabel('X2_R')
+    
+    plt.subplot(446)
+    plt.plot(table,df_X2_L,color='k', label='X2_L')
+    plt.xlabel('X2_L')
+    
+    plt.subplot(447)
+    plt.plot(table,df_X3_R,color='SkyBlue',label='X3_R')
+    plt.xlabel('X3_R')
+    
+    plt.subplot(448)
+    plt.plot(table,df_X3_L, color='IndianRed', label='X3_L')
+    plt.xlabel('X3_L')
+    
+    plt.subplot(449)
+    plt.plot(table,df_FEED_ACT, color='Purple', label='FEED_ACT')
+    plt.xlabel('FEED_ACT')
+    
+    plt.subplot(4,4,10)
+    plt.plot(table,df_FEED_SET, color='Brown', label='FEED_SET')
+    plt.xlabel('FEED_SET')
+    
+    plt.subplot(4,4,11)
+    plt.plot(table,df_C_R, color='Olive', label='C_R')
+    plt.xlabel('C_R')
+    
+    plt.savefig(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\abnpic\中部跳动值_'+ title1 +"-"+ title2 +'.jpg',bbox_inches='tight')
   
