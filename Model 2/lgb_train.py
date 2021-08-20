@@ -26,8 +26,8 @@ params_lgbm = {
     # 'bagging_freq': 5
 }
 
-train = get_feature('C:/Users/Luminous Isaac/Documents/GitHub/2021_IIAC_Competition/Data_Processing/Related_Data/Train.xlsx')
-test = get_feature(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\Test.xlsx', mode='test')
+train = get_feature('/Train.xlsx')
+test = get_feature(r'\Test.xlsx', mode='test')
 target_name = 'CentralJumpmean'
 test[target_name] = 0.
 features_to_consider = train.drop(['worktime', 'workorder', 'workpieceNo', 'CentralJumpmean', 'QJumpmean'],
@@ -76,4 +76,4 @@ submit.columns = ['加工时间', '加工顺序', '工件编号', '小头壁厚5
                   '斜坡壁厚                       2.5±0.03', 'Unnamed: 7',
                   '大端壁厚              2.45±0.03', 'Unnamed: 9', '大端内孔Φ69.84 0',
                   'Unnamed: 11', '总长352±0.3', '中部跳动≤0.8', 'Q处跳动≤0.6']
-submit.to_csv(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\20210810.csv', index=False)
+submit.to_csv(r'\20210810.csv', index=False)

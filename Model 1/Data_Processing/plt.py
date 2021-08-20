@@ -13,12 +13,12 @@ import matplotlib.dates as mdates
 # data processing
 from sklearn import preprocessing
 
-df1 = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\tsdata_2.xlsx')
+df1 = pd.read_excel(r'\tsdata_2.xlsx')
 grouped = df1.groupby('ID')
 
-df2 = pd.read_excel(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\numbdata_2.xlsx')
+df2 = pd.read_excel(r'\numbdata_2.xlsx')
 
-df3 = pd.read_csv(r'C:\Users\Luminous Isaac\Documents\GitHub\2021_IIAC_Competition\Data_Processing\Related_Data\index.csv')
+df3 = pd.read_csv(r'\index.csv')
 a = 0
 
 for i in range(0,167):
@@ -98,7 +98,7 @@ for i in range(0,167):
     # plt.ylabel("value", fontsize=16)         # Y轴标签
     # 图例
     # plt.show()
-    plt.savefig('C:/Users/Luminous Isaac/Documents/GitHub/2021_IIAC_Competition/Data_Processing/pic/item_number{}.png'.format(df2['工件编号'].tolist()[a]))
+    plt.savefig('/item_number{}.png'.format(df2['工件编号'].tolist()[a]))
     a = a + 1
 
     

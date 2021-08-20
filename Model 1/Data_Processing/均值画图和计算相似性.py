@@ -7,8 +7,8 @@ Created on Tue Aug 10 11:02:50 2021
 import pandas as pd
 import numpy as np
 ##########################分割画图#######################
-df2 = pd.read_excel(r'C:/Users/admin/Desktop/航空航天赛道/numbdata_2.xlsx')
-df = pd.read_excel(r'C:/Users/admin/Desktop/航空航天赛道/tsdata_equal.xlsx')
+df2 = pd.read_excel(r'/numbdata_2.xlsx')
+df = pd.read_excel(r'/tsdata_equal.xlsx')
 df2=df2[['工件编号','Q处跳动','中部跳动']]
 df=pd.merge(df, df2, left_on='ID',right_on='工件编号', how='left')
 
@@ -104,12 +104,12 @@ for i in list1:
     plt.plot(table,df_C_R, color='Olive', label='C_R')
     plt.xlabel('C_R')
     
-    plt.savefig('C:/Users/admin/Desktop/航空航天赛道/正负样本/分割画图/Q处跳动值_'+ title1 +"-"+ title2 +'.jpg',bbox_inches='tight')
+    plt.savefig('/Q处跳动值_'+ title1 +"-"+ title2 +'.jpg',bbox_inches='tight')
 
 #########################计算相似性##########################
-df = pd.read_excel(r'C:/Users/admin/Desktop/航空航天赛道/正式赛题/test_tsdata_equal.xlsx')
+df = pd.read_excel(r'/test_tsdata_equal.xlsx')
 df.rename(columns={'Unnamed: 0':'序号'},inplace=True)
-df1 = pd.read_excel(r'C:/Users/admin/Desktop/航空航天赛道/tsdata_equal.xlsx')
+df1 = pd.read_excel(r'/tsdata_equal.xlsx')
 df1.rename(columns={'Unnamed: 0':'序号'},inplace=True)
 df_res=pd.DataFrame(columns = ['test','train','out'])
 list1=df1['ID'].drop_duplicates()
@@ -144,4 +144,4 @@ df_res['test']  = l1
 df_res['train']  = l2
 df_res['out']  = l3 
 print(df_res)
-df_res.to_excel('C:/Users/admin/Desktop/航空航天赛道/正式赛题/相似性.xlsx',index=False)
+df_res.to_excel('/相似性.xlsx',index=False)

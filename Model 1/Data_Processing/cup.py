@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-data=pd.read_excel('E:\IIAC\测试集-旋压单元数据处理结果(1).xlsx')
+data=pd.read_excel('')
 # print(data.describe())
 data=data.replace('∞', np.nan)
 data=data[data['工件编号']!=210836]

@@ -23,27 +23,27 @@ def train_data_normal(tsdata,numbdata):
     for i in tsnormal:
         min_max_scaler = preprocessing.MinMaxScaler()
         tsdata[[i]]=min_max_scaler.fit_transform(tsdata[[i]])
-        joblib.dump(min_max_scaler, 'E:\IIAC\dataprocess\\tsnormal\\'+i)
+        joblib.dump(min_max_scaler, ''+i)
     tsdata.to_excel('tsdata_2.xlsx')
     for x in numbnormal:
         print(x)
         min_max_scaler = preprocessing.MinMaxScaler()
         numbdata[[x]]=min_max_scaler.fit_transform(numbdata[[x]])
-        joblib.dump(min_max_scaler, 'E:\IIAC\dataprocess\\datanormal\\'+x)
+        joblib.dump(min_max_scaler, ''+x)
     numbdata.to_excel('numbdata_2.xlsx')
 #测试数据集归一化
 def test_data_normal(tsdata,numbdata):
     for i in tsnormal:
-        min_max_scaler  = joblib.load('E:\IIAC\dataprocess\\tsnormal\\'+i)
+        min_max_scaler  = joblib.load(''+i)
         tsdata[[i]]=min_max_scaler.fit_transform(tsdata[[i]])
     for x in numbnormal:
-        min_max_scaler = joblib.load('E:\IIAC\dataprocess\\datanormal\\'+x)
+        min_max_scaler = joblib.load(''+x)
         numbdata[[x]]=min_max_scaler.fit_transform(numbdata[[x]])
     return tsdata,numbdata
 
 
-tsdata=pd.read_excel('E:\IIAC\dataprocess\\tsdata.xlsx')
-numbdata=pd.read_excel('E:\IIAC\dataprocess\\numbdata.xlsx')
+tsdata=pd.read_excel('')
+numbdata=pd.read_excel('\\numbdata.xlsx')
 train_data_normal(tsdata,numbdata)
 #最小值最大值213 211
 # max=float('-inf')
