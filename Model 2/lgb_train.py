@@ -25,7 +25,7 @@ params_lgbm = {
 
 # get features and taget for training and testing (prediction results submit)
 train = get_feature('/Train.xlsx')
-test = get_feature(r'\Test.xlsx', mode='test')
+test = get_feature('/Test.xlsx', mode='test')
 # train, validate the model for CentralJumpmean value
 target_name = 'CentralJumpmean'
 test[target_name] = 0.
