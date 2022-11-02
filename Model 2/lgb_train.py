@@ -1,3 +1,4 @@
+# This is the train, validate, and test process for CentralJumpmean and QJumpmean value on lgb
 import os
 import sys
 
@@ -10,7 +11,7 @@ n_folds = 10
 n_rounds = 20000
 cats = []
 
-# LGB参数
+# optimized parameters of LightGBM after parameter tuning
 params_lgbm = {
     'task': 'train',
     'boosting_type': 'gbdt',
@@ -19,20 +20,18 @@ params_lgbm = {
     'metric': 'rmse',
     'max_depth': -1,
     'n_jobs': 4,
-    # 'feature_fraction': 0.8,
-    # 'bagging_fraction': 0.8,
-    # 'lambda_l2': 1,
     'verbose': -1
-    # 'bagging_freq': 5
 }
 
+# get features and taget for training and testing (prediction results submit)
 train = get_feature('/Train.xlsx')
 test = get_feature(r'\Test.xlsx', mode='test')
+# train, validate the model for CentralJumpmean value
 target_name = 'CentralJumpmean'
 test[target_name] = 0.
 features_to_consider = train.drop(['worktime', 'workorder', 'workpieceNo', 'CentralJumpmean', 'QJumpmean'],
                                   axis=1).columns
-kf = KFold(n_splits=n_folds, shuffle=True, random_state=2021)
+kf = KFold(n_splits=n_folds, shuffle=True, random_state=2021) # KFold cross validation
 for train_index, val_index in kf.split(train):
     trn_x = train.loc[train_index, features_to_consider]
     trn_y = train.loc[train_index, target_name]
@@ -49,6 +48,7 @@ for train_index, val_index in kf.split(train):
                       )
     test[target_name] += model.predict(test[features_to_consider]) / n_folds
 
+# train, validate the model for QJumpmean value
 target_name = 'QJumpmean'
 test[target_name] = 0.
 kf = KFold(n_splits=n_folds, shuffle=True, random_state=2021)
