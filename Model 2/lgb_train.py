@@ -68,6 +68,7 @@ for train_index, val_index in kf.split(train):
                       )
     test[target_name] += model.predict(test[features_to_consider]) / n_folds
 
+# submit test results
 submit = test[['worktime', 'workorder', 'workpieceNo', 'SmallHeadThickness1', 'SmallHeadThickness2',
                'InnerHole', 'SlopeThickness1', 'SlopeThickness2', 'BigEndThickness1', 'BigEndThickness2',
                'BigEndHole1', 'BigEndHole2', 'TotalLength', 'CentralJumpmean', 'QJumpmean']]
